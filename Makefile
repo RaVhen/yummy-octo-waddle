@@ -1,5 +1,5 @@
 EXE = proj
-IN = puissant.c
+IN = scex.c
 DOUT = decrypt
 
 all:
