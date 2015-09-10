@@ -31,7 +31,7 @@ mot32  motpar( mot32 w)
 /***********************************************************/
 int main(int argc, char * argv[])
  {
-  register mot32 reg1, reg2, reg3, reb; 
+  register mot32 reg1, reg2, reg3, regtmp, reb; 
   mot32 i, j;
   FILE * fin, * fout;
   mot08 outblock, lettre, f[8] = {0,0,0,1,0,1,1,1}, x;
@@ -68,19 +68,22 @@ int main(int argc, char * argv[])
 
   reg1 = 0x17751;
   reg2 = 0x29519;
-  mot32 test = 0x000010;
+  reg3 = 0x000000;
 
   printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", argv[3], reg1, reg2, reg3);
 
   int ind = 0;
-
-  for(ind = 0; ind < 10; ind++){
+  
+  for(ind = 0; ind < 8388607; ind++){
+  /*for(reg3=0x000000; reg3 <= 0x7FFFFF; reg3++){*/
     
-    fin = fopen(argv[2],"r");
+    fin = fopen(argv[2],"r");  
     fout = fopen(argv[3],"w");
+
     reg1 = 0x17751;
     reg2 = 0x29519;
     reg3 += 0x000001;
+    regtmp = reg3;
 
     printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", argv[1], reg1, reg2, reg3);
   /***************************************/
@@ -119,10 +122,10 @@ int main(int argc, char * argv[])
      }
   printf("\n");
 
+  reg3 = regtmp;
 
-  fclose(fin);
   fclose(fout);
-
+  fclose(fin);
   }
 
 #ifdef DEBUG
