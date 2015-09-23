@@ -20,6 +20,12 @@ mot32  motpar( mot32 w)
   return(w&01L);
  }
 
+
+int is_printable(mot08 in){
+  int result = 0;
+  if(in == ' ' || (in >= 'a' && in <= 'z'))
+  return result;
+}
 /***********************************************************/
 /* Systeme de chiffrement par flot scex. Ce systeme est un */
 /* exemple pour etudier l'attaque de Siegenthaler.         */
@@ -36,6 +42,7 @@ int main(int argc, char * argv[])
   FILE * fin, * fout;
   mot08 outblock, lettre, f[8] = {0,0,0,1,0,1,1,1}, x;
   
+
   /***************************************/
   /*     Ouverture des fichiers          */
   /***************************************/
@@ -74,6 +81,8 @@ int main(int argc, char * argv[])
     argv[3], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
 
   int ind = 0;
+  int flag = 0;
+
   
   fin = fopen(argv[2],"r"); 
   for(ind = 0; ind < 8388607; ind++){
@@ -118,16 +127,29 @@ int main(int argc, char * argv[])
   #ifdef DEBUG
       printf("%lx\n",outblock);
   #endif
-
       if(argv[1][0] == 'e') fprintf(fout,"%02X",lettre^outblock);
-      else fprintf(fout,"%c",lettre^outblock);
+      else{
+        /*printf("%c\n", lettre^outblock);
+        fprintf(fout,"%c",lettre^outblock);*/
+        if((int)(lettre^outblock) >= 0 && (int)(lettre^outblock) <= 127)
+          fprintf(fout,"%c",lettre^outblock);
+        else{
+          flag = 1;
+          break;
+        }
+      } 
     }
     printf("\n");
 
     reg3 = regtmp;
 
     fclose(fout);
+
+    /* found a correct decrypt */
+    if(flag == 0)
+      break;
   }
+  printf("%lx\n", (long unsigned int)reg3);
   fclose(fin);
 
 #ifdef DEBUG
