@@ -70,14 +70,15 @@ int main(int argc, char * argv[])
   reg2 = 0x29519;
   reg3 = 0x000000;
 
-  printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", argv[3], reg1, reg2, reg3);
+  printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
+    argv[3], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
 
   int ind = 0;
   
+  fin = fopen(argv[2],"r"); 
   for(ind = 0; ind < 8388607; ind++){
-  /*for(reg3=0x000000; reg3 <= 0x7FFFFF; reg3++){*/
     
-    fin = fopen(argv[2],"r");  
+    fseek(fin ,0 ,SEEK_SET );
     fout = fopen(argv[3],"w");
 
     reg1 = 0x17751;
@@ -85,17 +86,17 @@ int main(int argc, char * argv[])
     reg3 += 0x000001;
     regtmp = reg3;
 
-    printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", argv[1], reg1, reg2, reg3);
+    printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
+      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
   /***************************************/
   /* Generation de la suite chiffante    */
   /***************************************/
     j = 0L;
-    while(fscanf(fin,(argv[1][0] == 'e')?"%c":"%02hhX",&lettre), !feof(fin))
-     {
+    int returnScan = 0;
+    while(returnScan = fscanf(fin,(argv[1][0] == 'e')?"%c":"%02hhX",&lettre), !feof(fin)){
       j++;
       outblock = 0;
-      for(i = 0;i < 8;i++)
-       {
+      for(i = 0;i < 8;i++){
         x = f[(reg1 & 1) | ((reg2 & 1) << 1) | ((reg3 & 1) << 2)];
         outblock |= (x << i);
         
@@ -113,20 +114,21 @@ int main(int argc, char * argv[])
         reg3 >>=1;
         reg3 |= reb?0x400000L:0L;
         /* Autre solution reg3 |= (reb << 22); */
-       }
+      }
   #ifdef DEBUG
       printf("%lx\n",outblock);
   #endif
+
       if(argv[1][0] == 'e') fprintf(fout,"%02X",lettre^outblock);
       else fprintf(fout,"%c",lettre^outblock);
-     }
-  printf("\n");
+    }
+    printf("\n");
 
-  reg3 = regtmp;
+    reg3 = regtmp;
 
-  fclose(fout);
-  fclose(fin);
+    fclose(fout);
   }
+  fclose(fin);
 
 #ifdef DEBUG
   printf("Nombre de lettres traitees : %d\n",j);
