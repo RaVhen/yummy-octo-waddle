@@ -81,22 +81,25 @@ int main(int argc, char * argv[])
     argv[3], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
 
   int ind = 0;
-  int flag = 0;
 
   
   fin = fopen(argv[2],"r"); 
+  char buffer[6000];
+  
   for(ind = 0; ind < 8388607; ind++){
     
     fseek(fin ,0 ,SEEK_SET );
-    fout = fopen(argv[3],"w");
+    /*fseek(fout ,0 ,SEEK_SET );**/
 
+    int flag = 0;
+    int n = 0;
     reg1 = 0x17751;
     reg2 = 0x29519;
     reg3 += 0x000001;
     regtmp = reg3;
 
-    printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
-      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
+    /*printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
+      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);*/
   /***************************************/
   /* Generation de la suite chiffante    */
   /***************************************/
@@ -131,8 +134,10 @@ int main(int argc, char * argv[])
       else{
         /*printf("%c\n", lettre^outblock);
         fprintf(fout,"%c",lettre^outblock);*/
-        if((int)(lettre^outblock) >= 0 && (int)(lettre^outblock) <= 127)
-          fprintf(fout,"%c",lettre^outblock);
+        if((int)(lettre^outblock) >= 0 && (int)(lettre^outblock) <= 127){
+          buffer[n] = (int)(lettre^outblock);
+          n++;
+        }
         else{
           flag = 1;
           break;
@@ -143,11 +148,14 @@ int main(int argc, char * argv[])
 
     reg3 = regtmp;
 
-    fclose(fout);
 
     /* found a correct decrypt */
-    if(flag == 0)
+    if(flag == 0){
+      fout = fopen(argv[3],"w");
+      fwrite(buffer, 1, sizeof(buffer), fout);
+      fclose(fout);
       break;
+    }
   }
   printf("%lx\n", (long unsigned int)reg3);
   fclose(fin);
