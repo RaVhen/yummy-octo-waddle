@@ -104,8 +104,8 @@ int main(int argc, char * argv[])
     reg3 += 0x000001;
     regtmp = reg3;
 
-    /*printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
-      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);*/
+    printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
+      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
   /***************************************/
   /* Generation de la suite chiffante    */
   /***************************************/
@@ -138,8 +138,8 @@ int main(int argc, char * argv[])
   #endif
       if(argv[1][0] == 'e') fprintf(fout,"%02X",lettre^outblock);
       else{
-        /*printf("%c\n", lettre^outblock);
-        fprintf(fout,"%c",lettre^outblock);*/
+        /*printf("%c\n", lettre^outblock);*/
+        /*fprintf(fout,"%c",lettre^outblock);*/
         if((int)(lettre^outblock) >= 0 && (int)(lettre^outblock) <= 127){
           buffer[n] = (int)(lettre^outblock);
           n++;
@@ -156,7 +156,7 @@ int main(int argc, char * argv[])
 
     /* found a correct decrypt */
     if(flag == 0){
-      /*fout = fopen(argv[3],"w");*/
+      fout = fopen(argv[3],"w");
       /*fwrite(buffer, 1, sizeof(buffer), fout);*/
       fprintf(fout, "%s", buffer);
       fclose(fout);
