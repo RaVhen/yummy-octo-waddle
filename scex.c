@@ -75,7 +75,7 @@ int main(int argc, char * argv[])
 
   reg1 = 0x17751;
   reg2 = 0x29519;
-  reg3 = 0x675700;
+  reg3 = 0x000000;
 
   printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
     argv[3], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
@@ -156,7 +156,7 @@ int main(int argc, char * argv[])
 
     /* found a correct decrypt */
     if(flag == 0){
-      fout = fopen(argv[3],"w");
+      /*fout = fopen(argv[3],"w");*/
       /*fwrite(buffer, 1, sizeof(buffer), fout);*/
       fprintf(fout, "%s", buffer);
       fclose(fout);
