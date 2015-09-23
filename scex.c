@@ -75,7 +75,7 @@ int main(int argc, char * argv[])
 
   reg1 = 0x17751;
   reg2 = 0x29519;
-  reg3 = 0x000000;
+  reg3 = 0x675700;
 
   printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
     argv[3], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
@@ -84,8 +84,14 @@ int main(int argc, char * argv[])
 
   
   fin = fopen(argv[2],"r"); 
-  char buffer[6000];
-  
+  /*char buffer[6000];*/
+  char * buffer;
+  int flen = 0;
+
+  fseek(fin, 0, SEEK_END);
+  flen = ftell(fin);
+  buffer = (char*)calloc(flen+1, sizeof(char));
+
   for(ind = 0; ind < 8388607; ind++){
     
     fseek(fin ,0 ,SEEK_SET );
@@ -144,21 +150,22 @@ int main(int argc, char * argv[])
         }
       } 
     }
-    printf("\n");
+    /*printf("\n");*/
 
     reg3 = regtmp;
-
 
     /* found a correct decrypt */
     if(flag == 0){
       fout = fopen(argv[3],"w");
-      fwrite(buffer, 1, sizeof(buffer), fout);
+      /*fwrite(buffer, 1, sizeof(buffer), fout);*/
+      fprintf(fout, "%s", buffer);
       fclose(fout);
       break;
     }
   }
   printf("%lx\n", (long unsigned int)reg3);
   fclose(fin);
+  free(buffer);
 
 #ifdef DEBUG
   printf("Nombre de lettres traitees : %d\n",j);
