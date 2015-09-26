@@ -26,6 +26,25 @@ int is_printable(mot08 in){
   if(in == ' ' || (in >= 'a' && in <= 'z'))
   return result;
 }
+
+int is_ascii(mot08 in){
+	if(isprint((char)(in)) != 0 || (int)(in) == 13 || (int)(in) == 0 || (int)(in) == 10){
+	/*if((int)(in) >= 0 && (int)(in) <= 127){*/
+        return 0;
+    }else{
+    	return 1;
+    }
+}
+
+int is_utf8(mot08 in){
+	/*if (((char)(in) >= 'A' && (char)(in) <= 'Z') || ((char)(in) >= 'a' && (char)(in) <= 'z') || ((unsigned char)(in) >= 0xC0))*/
+	if (((unsigned char)(in) >= 0x00 && (unsigned char)(in) <= 0x7f) || ((unsigned char)(in) >= 0xa0 && (unsigned char)(in) <= 0xff))
+	{
+		return 0;
+	}else{
+		return 1;
+	}
+}
 /***********************************************************/
 /* Systeme de chiffrement par flot scex. Ce systeme est un */
 /* exemple pour etudier l'attaque de Siegenthaler.         */
@@ -74,7 +93,8 @@ int main(int argc, char * argv[])
 
 
   reg1 = 0x17751;
-  reg2 = 0x29519;
+  /*reg2 = 0x29519;*/
+  reg2 = 0x21519;
   reg3 = 0x000000;
 
   printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
@@ -100,12 +120,13 @@ int main(int argc, char * argv[])
     int flag = 0;
     int n = 0;
     reg1 = 0x17751;
-    reg2 = 0x29519;
+    /*reg2 = 0x29519;*/
+    reg2 = 0x21519;
     reg3 += 0x000001;
     regtmp = reg3;
 
-    printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
-      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);
+    /*printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
+      argv[1], (long unsigned int)reg1, (long unsigned int)reg2, (long unsigned int)reg3);*/
   /***************************************/
   /* Generation de la suite chiffante    */
   /***************************************/
@@ -140,14 +161,24 @@ int main(int argc, char * argv[])
       else{
         /*printf("%c\n", lettre^outblock);*/
         /*fprintf(fout,"%c",lettre^outblock);*/
-        if((int)(lettre^outblock) >= 0 && (int)(lettre^outblock) <= 127){
+
+      	if (is_utf8(lettre^outblock) == 0)
+      	{
+      		buffer[n] = (int)(lettre^outblock);
+          	n++;
+      	}else{
+      		flag = 1;
+      		break;
+      	}
+
+        /*if((int)(lettre^outblock) >= 0 && (int)(lettre^outblock) <= 127){
           buffer[n] = (int)(lettre^outblock);
           n++;
         }
         else{
           flag = 1;
           break;
-        }
+        }*/
       } 
     }
     /*printf("\n");*/
