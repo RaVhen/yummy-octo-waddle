@@ -6,4 +6,4 @@ all:
 	gcc -ansi -O3 $(IN) -o $(EXE)
 
 clean:
-	rm $(EXE) $(DOUT)
+	rm $(EXE) $(DOUT)*

@@ -60,6 +60,7 @@ int main(int argc, char * argv[])
   mot32 i, j;
   FILE * fin, * fout;
   mot08 outblock, lettre, f[8] = {0,0,0,1,0,1,1,1}, x;
+  char ffout[80];
   
 
   /***************************************/
@@ -93,8 +94,9 @@ int main(int argc, char * argv[])
 
 
   reg1 = 0x17751;
-  /*reg2 = 0x29519;*/
-  reg2 = 0x21519;
+  /*reg2 = 0x29519;
+  reg2 = 0x21519;*/
+  reg2 = 0x49519;
   reg3 = 0x000000;
 
   printf("Crypto %s - Etat initiaux des registres : %lx %lx %lx\n", 
@@ -120,8 +122,9 @@ int main(int argc, char * argv[])
     int flag = 0;
     int n = 0;
     reg1 = 0x17751;
-    /*reg2 = 0x29519;*/
-    reg2 = 0x21519;
+    /*reg2 = 0x29519;
+    reg2 = 0x21519;*/
+    reg2 = 0x49519;
     reg3 += 0x000001;
     regtmp = reg3;
 
@@ -187,11 +190,13 @@ int main(int argc, char * argv[])
 
     /* found a correct decrypt */
     if(flag == 0){
-      fout = fopen(argv[3],"w");
+   	  snprintf(ffout, sizeof ffout, "%s%s%s%s%lx", argv[3], "_", argv[2], "_", (long unsigned int)reg3);
+   	  printf("%s\n", ffout);
+      fout = fopen(ffout,"w");
       /*fwrite(buffer, 1, sizeof(buffer), fout);*/
       fprintf(fout, "%s", buffer);
       fclose(fout);
-      break;
+      /*break;*/
     }
   }
   printf("%lx\n", (long unsigned int)reg3);
