@@ -62,10 +62,13 @@ int main(int argc, char * argv[])
   register mot32 reg1, reg2, reg3, regtmp, reb; 
   mot32 i, j;
   FILE * fin, * fout;
-  mot08 outblock, lettre, f[8] = {0,0,0,1,0,1,1,1}, x;
+  mot08 outblock, lettre, f[8] = {0,0,0,1,0,1,1,1}, x, var;
   char ffout[80];
   int tmp = 0;
   int err_max = 5;
+  int nb_zero = 0;
+  int analysed_bits = 0;
+  int bits_to_analyse = 50*8;
   
 
   /***************************************/
@@ -104,9 +107,9 @@ int main(int argc, char * argv[])
   reg1 = 0x17751;
   reg2 = 0x29519;
   /*reg2 = 0x21519;
-  reg2 = 0x49519;
-  reg2 = 0x9519;
-  reg2 = 0x29519;*/
+    reg2 = 0x49519;
+    reg2 = 0x9519;
+    reg2 = 0x29519;*/
   reg3 = 0x000000;
   /*reg3 = 0x077600;*/
 
@@ -145,9 +148,9 @@ int main(int argc, char * argv[])
     reg1 = 0x17751;
     reg2 = 0x29519;
     /*reg2 = 0x21519;
-    reg2 = 0x49519;
-    reg2 = 0x9519;
-    reg2 = 0x29519;*/
+      reg2 = 0x49519;
+      reg2 = 0x9519;
+      reg2 = 0x29519;*/
     reg3 += 0x000001;
     regtmp = reg3;
 
@@ -159,8 +162,7 @@ int main(int argc, char * argv[])
     /***************************************/
     j = 0L;
     int returnScan = 0;
-    while(returnScan = fscanf(fin,(argv[1][0] == 'e')?"%c":"%02hhX",&lettre), 
-	  !feof(fin)){
+    while(returnScan = fscanf(fin,(argv[1][0] == 'e')?"%c":"%02hhX",&lettre), !feof(fin)){
       j++;
       outblock = 0;
       for(i = 0;i < 8;i++){
@@ -190,7 +192,40 @@ int main(int argc, char * argv[])
         /*printf("%c\n", lettre^outblock);*/
         /*fprintf(fout,"%c",lettre^outblock);*/
 
-      	if (is_utf8(lettre^outblock) == 0)
+	/*var = lettre^outblock;
+	buffer[n] = (int)(lettre^outblock);
+	
+	for(tmp = 0; tmp < 8; tmp++)
+	  {
+	    if(var%2==0)
+	      nb_zero++;
+	    var >>= 1;
+	  }
+	analysed_bits += 8;
+
+	if(analysed_bits >= bits_to_analyse)
+	  {
+	    if((double)((double)nb_zero/(double)analysed_bits) < 0.515)
+	      {
+		printf("Walla jo z");
+		flag = 100;
+		analysed_bits = 0;
+		bits_to_analyse = 0;
+		nb_zero = 0;
+		break;
+	      }
+	    else
+	      {
+		flag = 0;
+		printf("Coucou\n");
+		flag = 0;
+		analysed_bits = 0;
+		bits_to_analyse = 0;
+		nb_zero = 0;
+		break;
+	      }
+	  }*/
+	if (is_utf8(lettre^outblock) == 0)
 	  {
 	    buffer[n] = (int)(lettre^outblock);
 	    n++;
@@ -200,7 +235,7 @@ int main(int argc, char * argv[])
 	    {
 	      break;
 	    }
-      	}
+	    }
       } 
     }
 
