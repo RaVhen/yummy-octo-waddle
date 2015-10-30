@@ -1,6 +1,6 @@
-\section{Premiers filtres}
+\section{Introduction}
 Le code qui nous a été donné nous permet, de base, d'encoder ou de décoder un fichier en fonction d'une clé donnée. Dans notre cas, nous ne connaissons pas la clé permettant de déchiffrer correctement les fichiers. Ainsi, dans un premier temps, nous avons implémenté une boucle permettant de tester toutes les clés possibles pour un fichier.\\
-Ici, la clé fait une longueur de 59 bits soit 8 octets. Pour les besoins de résolution plus rapide, nous connaissons 44 bits de la clé ($5,5$ octets). Cela laisse tout de même une possibilité de $2^{15}$ clés à tester (32768). Il est alors impossible de vérifier \enquote{à la main} toutes les clés.\\
+Ici, la clé fait une longueur de 59 bits soit 8 octets. Pour les besoins de résolution plus rapide, nous connaissons 44 bits de la clé ($5,5$ octets). Cela laisse tout de même une possibilité de $2^{15}$ clés à tester (32768). Il est alors impossible de vérifier \enquote{à la main} toutes les clés. Les registres de clés que nous connaissons de base sont à rentrer manuellement dans le code (variables $reg1$ et $reg2$).\\
 C'est dans cette optique que nous devons implémenter des filtres. Ces derniers vont nous permettre de savoir quels sont les fichiers qui sont le plus probables d'être des textes lisibles.\\
 Nous avons alors pensé à deux grand types de filtres.
 \section{Encodage des caractères}
@@ -67,8 +67,7 @@ Un des filtres que nous avons testé est celui cherchant le pourcentage de 0 et 
  analysed_bits += 8;
 
  if(analysed_bits >= bits_to_analyse){
-   if((double)((double)nb_zero/(double)analysed_bits) < 0.515){
-     printf("Walla jo z");
+   if((double)((double)nb_zero/(double)analysed_bits) < 0.60){
      flag = 100;
      analysed_bits = 0;
      bits_to_analyse = 0;
@@ -76,7 +75,6 @@ Un des filtres que nous avons testé est celui cherchant le pourcentage de 0 et 
      break;
    }else{
      flag = 0;
-     printf("Coucou\n");
      flag = 0;
      analysed_bits = 0;
      bits_to_analyse = 0;
@@ -85,3 +83,5 @@ Un des filtres que nous avons testé est celui cherchant le pourcentage de 0 et 
    }
  }
 \end{lstlisting}
+Cependant, malgré avoir testé ce code avec plusieurs valeurs pour le pourcentage de 0 dans le fichier, nous n'avons pas réussi à avoir de bons résultats. En effet, ce filtre nous donne soit aucun fichiers soit tous les fichiers.\\
+Cependant, ce genre de filtres est celui qu'il est nécessaire de mettre en place. Il permet de déceler si un texte comprenant seulement des caractères imprimables correspond à un texte réel ou à une suite de caractères aléatoires.

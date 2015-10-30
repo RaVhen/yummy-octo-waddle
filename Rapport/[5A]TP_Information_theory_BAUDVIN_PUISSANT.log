@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.25)  30 OCT 2015 18:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.25)  30 OCT 2015 18:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1150,17 +1150,17 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 30.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 30.
 Package rerunfilecheck Info: File `[5A]TP_Information_theory_BAUDVIN_PUISSANT.o
 ut' has not changed.
-(rerunfilecheck)             Checksum: 53192E276D935E34F38AE9EC021BD9F1;218.
+(rerunfilecheck)             Checksum: EF674706D7D1D81FD954F696E2CB9FFE;214.
 Package logreq Info: Writing requests to '[5A]TP_Information_theory_BAUDVIN_PUI
 SSANT.run.xml'.
 \openout1 = `[5A]TP_Information_theory_BAUDVIN_PUISSANT.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 19282 strings out of 493105
- 295437 string characters out of 6137072
- 749713 words of memory out of 5000000
- 22365 multiletter control sequences out of 15000+600000
+ 19278 strings out of 493105
+ 295385 string characters out of 6137072
+ 746713 words of memory out of 5000000
+ 22363 multiletter control sequences out of 15000+600000
  11268 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  49i,12n,99p,2269b,2058s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1178,11 +1178,11 @@ y5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on [5A]TP_Information_theory_BAUDVIN_PUISSANT.pdf (7 pages, 2207
+Output written on [5A]TP_Information_theory_BAUDVIN_PUISSANT.pdf (7 pages, 2204
 71 bytes).
 PDF statistics:
- 191 PDF objects out of 1000 (max. 8388607)
- 164 compressed objects within 2 object streams
- 65 named destinations out of 1000 (max. 500000)
+ 189 PDF objects out of 1000 (max. 8388607)
+ 162 compressed objects within 2 object streams
+ 63 named destinations out of 1000 (max. 500000)
  38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
