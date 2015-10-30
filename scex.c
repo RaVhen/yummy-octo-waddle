@@ -136,7 +136,7 @@ int main(int argc, char * argv[])
 	tmp == 0xA00000 || tmp == 0xB00000 || tmp == 0xC00000 || 
 	tmp == 0xD00000 || tmp == 0xE00000 || tmp == 0xF00000)    	
       {
-    	printf("Coucou %lx\n", (long unsigned int)reg3);
+    	printf("Reach %lx\n", (long unsigned int)reg3);
       }
     tmp++;
     fseek(fin ,0 ,SEEK_SET );
